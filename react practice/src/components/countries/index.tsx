@@ -1,19 +1,31 @@
-import { useState } from "react"
+
 import countries from "../../countries.json"
 import { Singlecountry } from "./single-country"
-
+import { useEffect, useState } from "react";
 
 type countrietype = typeof countries[0]
 
 export function Countrylist() {
     const [filter,setFilter]=useState("")
     const [filterpop,setFilter2]=useState(false)
+    const [CountriesFromApi, setCountryFromApi] = useState<countrietype[]>([]);
+
+
+    useEffect(() => {
+        async function getCountriesFromApi() {
+            const result = await fetch("https://restcountries.com/v3.1/all ")
+            const CountriesArray = await result.json()
+            setCountryFromApi(CountriesArray)
+        }
+        getCountriesFromApi()
+    }, [])
+
  
    const countriesfilter = filter
-    ? countries.filter((country) =>
+    ? CountriesFromApi.filter((country) =>
         country.name.common.toLowerCase().includes(filter.toLowerCase())
       )
-    : countries; 
+    : CountriesFromApi; 
 
     const countriesfilter2 = filterpop
     ? countriesfilter.filter((country) =>
