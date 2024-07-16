@@ -1,53 +1,70 @@
-import { useState } from "react"
-import countries from "../../countries.json"
-import { Singlecountry } from "./single-country"
+
+import {Countrytype,getcountriesApi } from './service';
+
+import { useEffect, useState } from 'react';
+import { InputText } from 'primereact/inputtext';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import lodash from "lodash"
+import CountriesList from './countriesList';
+export default function Countrylist() {
+const [countries, setCountries] = useState<Array<Countrytype>>([])
+const [isLoading, setIsLoading] = useState<boolean>(false)
+const [inputValue, setInputValue] = useState<string>("")
 
 
-type countrietype = typeof countries[0]
-
-export function Countrylist() {
-    const [filter,setFilter]=useState("")
-    const [filterpop,setFilter2]=useState(false)
- 
-   const countriesfilter = filter
-    ? countries.filter((country) =>
-        country.name.common.toLowerCase().includes(filter.toLowerCase())
-      )
-    : countries; 
-
-    const countriesfilter2 = filterpop
-    ? countriesfilter.filter((country) =>
-        country.population>10000000
-      )
-    : countriesfilter; 
 
 
-    return  <div style={{display:"flex", flexDirection:"column", justifyContent:"center",gap:"20px"}}> {  <input
-        type="text"
-        placeholder="search for country"
-        onChange={(e) => {
-          setFilter(e?.target?.value?.toLowerCase());
-        }}
-      /> }
-    <button onClick={()=>{
-            setFilter2(!filterpop)
-            
-           
+useEffect(() => {
+  let isSetState = true
+  async function searchCountry() {
+      try {
+          setIsLoading(true)
+          console.log(inputValue);
+          
+          const countriesArray = await getcountriesApi(inputValue)
+          if (isSetState) {
+            setCountries(countriesArray)
+          }
+
+      } catch (error) {
+          alert(error)
+      } finally {
+          setIsLoading(false)
+      }
+  }
+  if (inputValue) {
+    searchCountry()
+  }
+  return () => {
+      isSetState = false;
+  }
+}, [inputValue])
 
 
-         }}>
-           filter pop higher 10m
-          </button>
-    <div style={{display:"flex", flexWrap:"wrap", gap:"50px"}}>
-        
-        {countriesfilter2.map((country: countrietype) => {
-            return <Singlecountry  countryName={country.name.common}
-            countrypicture={country.flags.svg}
-            key={country.name.official}
-            />
-        })}
-    </div>
+
+
+const searchHandler = lodash.debounce(function (e) {
+  console.log(e.target.value)
+  setInputValue(e.target.value)
+}, 500)
+
+
+
+    
+
+    return  <div style={{display:"flex", flexDirection:"column", justifyContent:"center",gap:"20px"}}> { <InputText onChange={searchHandler} placeholder="search" /> }
+
+
+<div style={{ display: "flex", justifyContent: "center", marginTop: "2rem", flexWrap: "wrap", gap: "20px" }}>
+            {isLoading ? <ProgressSpinner />
+                : <CountriesList countries={countries} />}
+        </div>
     </div>
 }
+
+
+
+
+
 
 

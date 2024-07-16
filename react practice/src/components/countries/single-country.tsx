@@ -1,10 +1,6 @@
 import { useState } from "react";
-
-type Props = {
-    countryName: string,
-    countrypicture: string
-    key:string
-}
+import { Countrytype } from "./service"
+type Props = Countrytype
 
 export function Singlecountry(props: Props) {
     const [inputValue, setInputValue] = useState("");
@@ -14,8 +10,8 @@ export function Singlecountry(props: Props) {
    
 
     return <div style={{ border: "1px dashed black", width:"350px" }}>
-        <h2 >{props.countryName}</h2>
-      <img src={props.countrypicture} alt="" style={{width:"300px"}}/>
+        <h2 >{props.name.common}</h2>
+      <img src={props.flags.svg} alt="" style={{width:"300px"}}/>
       {comment ? (
         <div>
              <input

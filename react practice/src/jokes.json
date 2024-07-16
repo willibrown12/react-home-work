@@ -1,0 +1,62 @@
+[
+    {
+        "type": "general",
+        "setup": "What did the fish say when it swam into a wall?",
+        "punchline": "Damn!",
+        "id": 174
+    },
+    {
+        "type": "general",
+        "setup": "How many optometrists does it take to change a light bulb?",
+        "punchline": "1 or 2? 1... or 2?",
+        "id": 142
+    },
+    {
+        "type": "general",
+        "setup": "Want to hear a chimney joke?",
+        "punchline": "Got stacks of em! First one's on the house",
+        "id": 152
+    },
+    {
+        "type": "general",
+        "setup": "How does the moon cut his hair?",
+        "punchline": "Eclipse it.",
+        "id": 137
+    },
+    {
+        "type": "general",
+        "setup": "What do you get when you cross a bee and a sheep?",
+        "punchline": "A bah-humbug.",
+        "id": 232
+    },
+    {
+        "type": "general",
+        "setup": "How was the snow globe feeling after the storm?",
+        "punchline": "A little shaken.",
+        "id": 147
+    },
+    {
+        "type": "general",
+        "setup": "What do you call a fat psychic?",
+        "punchline": "A four-chin teller.",
+        "id": 208
+    },
+    {
+        "type": "programming",
+        "setup": "The punchline often arrives before the set-up.",
+        "punchline": "Do you know the problem with UDP jokes?",
+        "id": 73
+    },
+    {
+        "type": "general",
+        "setup": "What is red and smells like blue paint?",
+        "punchline": "Red paint!",
+        "id": 248
+    },
+    {
+        "type": "general",
+        "setup": "Have you ever heard of a music group called Cellophane?",
+        "punchline": "They mostly wrap.",
+        "id": 110
+    }
+]
