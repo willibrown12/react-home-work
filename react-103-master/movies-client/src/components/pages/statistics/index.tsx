@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from "react"
-import { FavoritesContext, HistoryContext, SettingsContext } from "../../context"
+import { FavoritesContext, HistoryContext } from "../../context"
 import { MovieType } from "../movies/service"
 import { BarChart, PieChart } from "@mui/x-charts"
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
@@ -28,6 +28,8 @@ export default function StatisticsPage() {
             return obj;
         }, {})
     }, [])
+
+    const [chartWidth, setChartWidth] = useState(500)
 
     const filteredOriginalData = filterData(historyContext.history)
     const resultAggregationByYear = useMemo(() => {
@@ -67,10 +69,13 @@ export default function StatisticsPage() {
     const adaptedResult3 = filters.Games ? adaptedResult2 : adaptedResult2.filter(item => item.label !== "Games")
     const adaptedResult4 = filters.Sdarot ? adaptedResult3 : adaptedResult3.filter(item => item.label !== "Sdarot")
 
-    const { state } = useContext(SettingsContext)
 
+    const max = window.screen.width;
     return < div >
         <div>
+            <input type="range" max={max} min={200} value={chartWidth} onChange={(e) => {
+                setChartWidth(Number(e.target.value))
+            }} />
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Filter By Types</InputLabel>
                 <Select
@@ -91,7 +96,7 @@ export default function StatisticsPage() {
             <BarChart
                 xAxis={[{ scaleType: 'band', data: barChartGroups }]}
                 series={[{ data: barChartData }]}
-                width={state.chartSize}
+                width={chartWidth}
                 height={300}
             />
             <Button onClick={() => {
@@ -109,7 +114,7 @@ export default function StatisticsPage() {
                     data: adaptedResult4,
                 },
             ]}
-            width={state.chartSize}
+            width={600}
             height={300}
         />
 

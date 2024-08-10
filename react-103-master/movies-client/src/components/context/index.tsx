@@ -9,7 +9,6 @@ type SettingStateType = {
     toggleTime: boolean,
     theme: string,
     chartSize: number
-    audit: Array<string>
 }
 type SettingContextType = {
     state: SettingStateType,
@@ -26,15 +25,14 @@ export const HistoryContext = createContext<HistoryType>({} as HistoryType)
 
 const initialSettingsState: SettingStateType = {
     toggleTime: true,
-    theme: "Light",
-    chartSize: 500,
-    audit:[]
+    theme: "dark",
+    chartSize: 500
+
 }
 export const ACTIONS = {
     ToggleTime: "ToggleTime",
     ChangeTheme: "ChangeTheme",
-    SetChartSize: "SetChartSize",
-     SetAudit: "AddAudit"
+    SetChartSize: "SetChartSize"
 }
 
 function reducer(state: SettingStateType, action: { type: string, payload: any }): SettingStateType {
@@ -46,15 +44,10 @@ function reducer(state: SettingStateType, action: { type: string, payload: any }
             return { ...state, toggleTime: !state.toggleTime }
         }
         case ACTIONS.ChangeTheme: {
-         
-            return  {...state, theme:action.payload}
+            return state;
         }
         case ACTIONS.SetChartSize: {
-            return  {...state, chartSize:action.payload}
-        }
-        case ACTIONS.SetAudit: {
-            return {...state,audit: [...state.audit, action.payload]
-            };
+            return state;
         }
         default: {
             return state;
@@ -64,7 +57,6 @@ function reducer(state: SettingStateType, action: { type: string, payload: any }
 
 export function ContextWrapper({ children }: { children: any }) {
     let favoritesInitialData = []
-    let timeInitialData = false;
     try {
         favoritesInitialData = JSON.parse(localStorage.getItem("favorites")) || []
         let value = localStorage.getItem("time")

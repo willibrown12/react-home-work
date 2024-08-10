@@ -13,7 +13,8 @@ import FavoritesPage from './components/pages/favorites';
 import { ContextWrapper } from './components/context';
 import SettingsPage from './components/pages/settings';
 import StatisticsPage from './components/pages/statistics';
-import { AuditPage } from './components/pages/audit';
+import { CarsPage } from './components/pages/cars';
+import { ServerPage } from './components/pages/apipage';
 
 
 export const routes = [
@@ -55,10 +56,16 @@ export const routes = [
         element: <SettingsPage />,
     },
     {
-        path: "audit",
-        label: "audit",
+        path: "cars",
+        label: "cars",
         visible: true,
-        element: <AuditPage/>,
+        element: <CarsPage />,
+    },
+    {
+        path: "favoritesapi",
+        label: "favorites server",
+        visible: true,
+        element: <ServerPage />,
     },
 ]
 const router = createBrowserRouter([

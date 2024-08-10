@@ -5,10 +5,10 @@ import MoviesList from './moviesList';
 import { getMoviesApi, MovieType } from './service';
 import lodash from "lodash"
 import { Button, CircularProgress, TextField } from '@mui/material';
-import { ACTIONS, FavoritesContext, HistoryContext, SettingsContext } from '../../context';
+import { FavoritesContext, HistoryContext } from '../../context';
 
 export default function MoviesPage() {
-    const {  dispatch  } = useContext(SettingsContext)
+
     const [movies, setMovies] = useState<Array<MovieType>>([])
     const context = useContext(FavoritesContext)
     const historyContext = useContext(HistoryContext)
@@ -42,8 +42,6 @@ export default function MoviesPage() {
     const searchHandler = lodash.debounce(function (e) {
         console.log(e.target.value)
         setInputValue(e.target.value)
-        {e.target.value===""}
-        dispatch({ type: ACTIONS.SetAudit, payload: e.target.value==="" ?"claered input":"User searched for: "+ e.target.value +  new Date().toLocaleString()})
     }, 500)
 
     return <div>
@@ -51,10 +49,8 @@ export default function MoviesPage() {
             <TextField onChange={searchHandler} placeholder="search" id="outlined-basic" label="Outlined" variant="outlined" />
             <Button onClick={() => {
                 historyContext.setHistory([...movies, ...historyContext.history])
-                dispatch({ type: ACTIONS.SetAudit, payload:"User Saved to history "+movies.length +" movies "+  new Date().toLocaleString()})
             }}> Save History </Button>
             <Button onClick={() => {
-                dispatch({ type: ACTIONS.SetAudit, payload:"user cleared history"})
                 historyContext.setHistory([])
             }}> Clear History </Button>
         </div>
@@ -64,12 +60,30 @@ export default function MoviesPage() {
                     const findMovie = context.favorites.find(movie => movie.imdbID === m.imdbID)
                     if (!findMovie) {
                         context.setFavorites([...context.favorites, m])
-                        dispatch({ type: ACTIONS.SetAudit, payload:"User Saved to favorie "+ m.Title +  new Date().toLocaleString()})
+                        addFavoriteServer(m)
                     }
-                  
                 }} />}
         </div>
     </div >
+}
+
+
+
+async function addFavoriteServer(Movie:MovieType) {
+    try {
+        const result = await fetch(`http://localhost:4500/favorite`, {
+            method: "post",
+            body: JSON.stringify( Movie ),
+            headers: { "content-type": "application/json" }
+        })
+        const r = await result.text()
+        console.log(r)
+        alert("Success!!")
+        return r;
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 

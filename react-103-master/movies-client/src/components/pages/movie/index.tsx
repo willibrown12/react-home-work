@@ -17,6 +17,7 @@ export default function Movie() {
                 const result: MovieType = await getMovieByIdApi(params.id)
                 setMovie(result)
             } catch (error) {
+console.log(error);
 
             } finally {
                 setIsMovieLoading(false)
